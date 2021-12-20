@@ -74,7 +74,7 @@ class SpotifyApi():
                 the artist name to search for
 
         Returns:
-            json search results
+            json formatted search results
         '''
         search_url = BASE_API_URL + f'search?type=artist&\
             include_external=audio&q={artist}&limit=50'
@@ -98,7 +98,7 @@ class SpotifyApi():
                 the track name to search for
 
         Returns:
-            json search results
+            json formatted search results
         '''
         search_url = BASE_API_URL + f'search?type=track&\
             include_external=audio&q={track_name}&limit=50'
@@ -112,3 +112,25 @@ class SpotifyApi():
             )
 
         return search_response.json()
+
+    def get_track_features(self, track_id):
+        '''queries the Spotify API and returns the audio
+        features of a given track id
+
+        Args:
+            track_id (str):
+                the Spotify track id of the desired track
+
+        Returns:
+            json formatted audio features'''
+        features_url = BASE_API_URL + f'audio-features/{track_id}'
+
+        features_response = requests.get(
+            features_url,
+            headers={
+                'authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json'
+            }
+        )
+
+        return features_response.json()
