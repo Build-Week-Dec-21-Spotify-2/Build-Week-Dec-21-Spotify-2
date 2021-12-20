@@ -87,7 +87,7 @@ class SpotifyApi():
                 }
             )
 
-        return search_response.json()
+        return search_response.json()['artists']['items']
 
     def search_track(self, track_name):
         '''queries the Spotify API and returns json
@@ -111,7 +111,54 @@ class SpotifyApi():
                 }
             )
 
-        return search_response.json()
+        return search_response.json()['tracks']['items']
+
+    def search_playlist(self, playlist_name):
+        '''queires the Spotify API and returns json search
+        results
+
+        Args:
+            playlist_name (str):
+                the name of the playlist to search for
+
+        Returns:
+            json formatted search results
+        '''
+        search_url = BASE_API_URL + f'search?type=playlist&\
+            include_external=audio&q={playlist_name}&limit=50'
+
+        search_response = requests.get(
+            search_url,
+            headers={
+                'authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json'
+                }
+            )
+
+        return search_response.json()['playlists']['items']
+
+    def get_track(self, track_id):
+        '''queries the Spotify API and returns info on
+        the audio track
+
+        Args:
+            track_id (str):
+                the track id of the desired track
+
+        Returns:
+            json formatted track information
+        '''
+        track_url = BASE_API_URL + f'tracks/{track_id}'
+
+        track_response = requests.get(
+            track_url,
+            headers={
+                'authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json'
+                }
+            )
+
+        return track_response.json()
 
     def get_track_features(self, track_id):
         '''queries the Spotify API and returns the audio
@@ -134,3 +181,26 @@ class SpotifyApi():
         )
 
         return features_response.json()
+
+    def get_playlist_tracks(self, playlist_id):
+        '''queries the Spotify API and returns the tracks
+        of a given playlist
+
+        Args:
+            playlist_id (str):
+                the spotify id of a playlist
+
+        Returns:
+            json formated list of tracks in a playlist
+        '''
+        playlist_tracks_url = BASE_API_URL + f'playlists/{playlist_id}'
+
+        features_response = requests.get(
+            playlist_tracks_url,
+            headers={
+                'authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json'
+            }
+        )
+
+        return features_response.json()['tracks']['items']
