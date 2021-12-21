@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # Below will load the pickled-model
 filename = "models/app_data/Spotify_model_new"
-model = pickle.load(open(filename, "rb"))
+model = pickle.load(open(filename, 'rb'))
 
 
 def get_similar_songs(your_song):
