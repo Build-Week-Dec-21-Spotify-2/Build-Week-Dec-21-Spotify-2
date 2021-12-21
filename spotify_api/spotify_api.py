@@ -82,9 +82,11 @@ class SpotifyAPI():
 
         if response.status_code == 200:
             return response
+
         elif response.status_code == 429 & request_attempts <= 3:
             time.sleep(5)
             self.api_call(api_url)
+
         else:
             raise ConnectionError
 

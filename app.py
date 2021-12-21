@@ -29,6 +29,7 @@ def lazy_track_search(track_search_term):
     Returns:
         track id (str)"""
     track_id = spot.search_track(track_search_term)[0]['id']
+
     return track_id
 
 
