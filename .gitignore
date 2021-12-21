@@ -1,2 +1,4 @@
 .vscode
 Pipfile.lock
+.env
+.DS_Store
