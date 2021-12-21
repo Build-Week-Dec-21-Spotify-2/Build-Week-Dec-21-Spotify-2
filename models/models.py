@@ -23,7 +23,7 @@ def find_recommendations(input_feature_vector):
     songs = pd.read_csv("app_data/song_artist.csv")
 
     # Query the model using the features from the user's selected song
-    # Model will return the indices of the 5 most similar songs that it finds within the 100,000 rows
+    # Model will return the indices of the 5 most similar songs that it finds within the 1750 rows
     dist, ind = model.kneighbors([input_feature_vector])
 
     # Convert 'indices' output from array type to list
