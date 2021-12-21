@@ -11,7 +11,7 @@ AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_API_URL = 'https://api.spotify.com/v1/'
 
 
-class SpotifyApi():
+class SpotifyAPI():
     '''establish access to the spotify api and perform search queries.
 
     How To:

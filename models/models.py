@@ -1,6 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 import pickle
+import warnings
+
+# squelch sklearn warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 
 DB = SQLAlchemy()
 
@@ -8,7 +12,8 @@ DB = SQLAlchemy()
 class Recommendations(DB.Model):
     """
     Creates a Recommendations Table with SQlAlchemy.
-    This is useful for jinja2 HTML formatting in the 'recommendations.html' file.
+    This is useful for jinja2 HTML formatting in the
+    'recommendations.html' file.
     """
 
     id = DB.Column(DB.BigInteger, primary_key=True)
@@ -17,14 +22,16 @@ class Recommendations(DB.Model):
 
 def find_recommendations(input_feature_vector):
     # Load locally stored pickled model
-    model = pickle.load(open('app_data/Spotify_model_new'))
+    model = pickle.load(open('app_data/Spotify_model_new', 'rb'))
 
     # Read in spotify data from csv
     songs = pd.read_csv("app_data/song_artist.csv")
 
-    # Query the model using the features from the user's selected song
-    # Model will return the indices of the 5 most similar songs that it finds within the 1750 rows
-    dist, ind = model.kneighbors([input_feature_vector])
+    # Query the model using the features from the user's
+    # selected song
+    # Model will return the indices of the 5 most similar
+    # songs that it finds within the 100,000 rows
+    _, ind = model.kneighbors([input_feature_vector])
 
     # Convert 'indices' output from array type to list
     ind = list(ind[0])
