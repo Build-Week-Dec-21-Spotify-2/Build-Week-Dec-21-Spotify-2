@@ -8,9 +8,9 @@ import pickle
 app = Flask(__name__)
 
 # Below will load the pickled-model
-# TODO: UNCOMMENT BELOW WHEN WE HAVE THE MODEL
-# with open(pickled_model_name, 'rb') as file:
-#     KNN_Model = pickle.load(file)
+filename = "models/app_data/Spotify_model_new"
+model = pickle.load(open(filename, "rb"))
+
 
 def get_similar_songs(your_song):
     """Use the KKN model on the user's song input."""
