@@ -1,5 +1,6 @@
 from os import getenv
 import requests
+import time
 
 # Spotify API Credentials
 SPOTIFY_CLIENT = getenv('SPOTIFY_CLIENT')
@@ -57,13 +58,35 @@ class SpotifyApi():
         try:
             self.access_token = access_request.json()['access_token']
 
-        except KeyError as err:
-            print("Unable to obtain access key: ", err)
+        except KeyError as e:
+            print("Unable to obtain access key: ", e)
             print("For some reason, no access key was granted. \
                   This could be due invalid credentials, or an \
                   issue connecting the the authorization url")
 
         return self.access_token
+
+    def api_call(self, api_url):
+
+        request_attempts = 0
+
+        response = requests.get(
+            api_url,
+            headers={
+                'authorization': f'Bearer {self.access_token}',
+                'Content-Type': 'application/json'
+                }
+            )
+
+        request_attempts += 1
+
+        if response.status_code == 200:
+            return response
+        elif response.status_code == 429 & request_attempts <= 3:
+            time.sleep(5)
+            self.api_call(api_url)
+        else:
+            raise ConnectionError
 
     def search_artist(self, artist):
         '''queries the Spotify API and returns json
@@ -79,13 +102,7 @@ class SpotifyApi():
         search_url = BASE_API_URL + f'search?type=artist&\
             include_external=audio&q={artist}&limit=50'
 
-        search_response = requests.get(
-            search_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-                }
-            )
+        search_response = self.api_call(search_url)
 
         return search_response.json()['artists']['items']
 
@@ -103,13 +120,7 @@ class SpotifyApi():
         search_url = BASE_API_URL + f'search?type=track&\
             include_external=audio&q={track_name}&limit=50'
 
-        search_response = requests.get(
-            search_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-                }
-            )
+        search_response = self.api_call(search_url)
 
         return search_response.json()['tracks']['items']
 
@@ -127,13 +138,7 @@ class SpotifyApi():
         search_url = BASE_API_URL + f'search?type=playlist&\
             include_external=audio&q={playlist_name}&limit=50'
 
-        search_response = requests.get(
-            search_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-                }
-            )
+        search_response = self.api_call(search_url)
 
         return search_response.json()['playlists']['items']
 
@@ -150,13 +155,7 @@ class SpotifyApi():
         '''
         track_url = BASE_API_URL + f'tracks/{track_id}'
 
-        track_response = requests.get(
-            track_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-                }
-            )
+        track_response = self.api_call(track_url)
 
         return track_response.json()
 
@@ -172,13 +171,7 @@ class SpotifyApi():
             json formatted audio features'''
         features_url = BASE_API_URL + f'audio-features/{track_id}'
 
-        features_response = requests.get(
-            features_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-            }
-        )
+        features_response = self.api_call(features_url)
 
         return features_response.json()
 
@@ -195,12 +188,6 @@ class SpotifyApi():
         '''
         playlist_tracks_url = BASE_API_URL + f'playlists/{playlist_id}'
 
-        features_response = requests.get(
-            playlist_tracks_url,
-            headers={
-                'authorization': f'Bearer {self.access_token}',
-                'Content-Type': 'application/json'
-            }
-        )
+        features_response = self.api_call(playlist_tracks_url)
 
         return features_response.json()['tracks']['items']
