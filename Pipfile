@@ -4,7 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+pandas = "*"
 flask = "*"
+flask-sqlalchemy = "*"
+requests = "*"
+flake8 = "*"
 
 [dev-packages]
 
