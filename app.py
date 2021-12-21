@@ -24,7 +24,9 @@ def root():
     # your_song=request.form
     if request.method == 'POST':
         your_song=request.form
-    return render_template('index.html', your_song=your_song)
+        return render_template('index.html', your_song=your_song)
+    else:
+        return render_template('index.html')
 
 
 if __name__ == "__main__":
