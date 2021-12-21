@@ -17,9 +17,10 @@
 					<section class="intro">
 						<header>
 							<h1>Spotify Song Suggester</h1>
-							<p>Find and visualize songs that fit your personal taste. <br>Just input a song below and we'll recommend you 5 similar songs you're sure to love.</p>
+							<p>Find and visualize songs that fit your personal taste. <br>Just input a song and its artist below and we'll recommend you 5 similar songs you're sure to love.</p>
 							<form action="/" method = "POST">
-								<p>Song <input type = "text" name = "Song" /></p>
+								<p>Song <input type = "text" name = "Song" required/></p>
+								<p>Artist <input type = "text" name = "Artist" required/></p>
 								<p><input type = "submit" value = "Submit" /></p>
 							</form>
 						</header>
@@ -34,13 +35,15 @@
 							<h2>Your Similar Songs</h2>
 						</header>
 						<div class="content">
-							<p><strong>Your song: </strong>
-								{% if your_song %}
-									{% for key,value in your_song.items() %}
-									<p> {{value}}</p>
+							<p>
+								{% if original_input %}
+									{% for variable in original_input %}
+										<p>Your {{variable}}: {{original_input[variable]}}</p>
 									{% endfor %}
 								{% endif %}
 							</p>
+							
+							
 							<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
 						</div>
 					</section>
