@@ -35,9 +35,11 @@
 						</header>
 						<div class="content">
 							<p><strong>Your song: </strong>
-								{% for key,value in your_song.items() %}
-								<p> {{value}}</p>
-								{% endfor %}
+								{% if your_song %}
+									{% for key,value in your_song.items() %}
+									<p> {{value}}</p>
+									{% endfor %}
+								{% endif %}
 							</p>
 							<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
 						</div>

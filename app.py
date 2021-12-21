@@ -21,7 +21,7 @@ def get_similar_songs(your_song):
 @app.route('/', methods=['GET','POST'])
 def root():
     """The home page."""
-    # your_song=request.form
+
     if request.method == 'POST':
         your_song=request.form
         return render_template('index.html', your_song=your_song)
