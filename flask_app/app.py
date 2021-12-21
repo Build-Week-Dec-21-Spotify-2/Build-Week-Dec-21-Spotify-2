@@ -20,19 +20,7 @@ def get_similar_songs(your_song):
 @app.route('/', methods=['GET','POST'])
 def root():
     """The home page."""
-    your_song=request.form
+    # your_song=request.form
     if request.method == 'POST':
-        
+        your_song=request.form
     return render_template('index.html', your_song=your_song)
-
-
-# Below will test form data on another URL, but right now
-# it's not being used. Perhaps delete when we have 
-# @app.route('/data', methods=['POST','GET'])
-# def data():
-#     """A testing page."""
-#     if request.method == 'GET':
-#         return f"Go back and submit your song first!"
-#     if request.method == 'POST':
-#         your_song = request.form
-#         return render_template('data.html', your_song=your_song)
