@@ -2,6 +2,7 @@
 most similar songs using a KNN model and the Spotify API."""
 
 from flask import Flask, render_template, request
+import pandas as pd
 import pickle
 from spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
 from models import find_recommendations
@@ -87,8 +88,26 @@ def root():
     """The home page."""
 
     if request.method == 'POST':
-        your_song = request.form
-        return render_template('index.html', your_song=your_song)
+        # Extract input from form
+        your_song=request.form.get("Song")
+        your_artist=request.form.get("Artist")
+
+        # Create Dataframe based on input
+        # JOSHUA: FEEL FREE TO MANIPULATE BELOW TO GET IT TO WORK
+        # WITH THE MODEL
+        input_variables = pd.DataFrame([[your_song, your_artist]],
+                                        columns=['your_song','your_artist'],
+                                        index=['input']
+        )
+        # GET MODEL'S PREDICTION
+        prediction = get_similar_songs(input_variables)
+
+
+        return render_template('index.html',
+                                original_input={
+                                        'Song':your_song,
+                                        'Artist':your_artist}
+        )
     else:
         return render_template('index.html')
 
