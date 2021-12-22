@@ -3,15 +3,15 @@ most similar songs using a KNN model and the Spotify API."""
 
 from flask import Flask, render_template, request
 import pickle
-from spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
-from models import find_recommendations
+from spotify_api.spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
+from models.models import find_recommendations
 
 
 app = Flask(__name__)
 
 # Below will load the pickled-model
 filename = "models/app_data/Spotify_model_new"
-model = pickle.load(open(filename, 'rb'))
+knn_model = pickle.load(open(filename, 'rb'))
 
 # construct and authenticate SpotifyAPI
 spot = SpotifyAPI(SPOTIFY_CLIENT, SPOTIFY_SECRET)
@@ -60,11 +60,13 @@ def get_feature_vector(track_id):
     return feature_names, feature_vector
 
 
-def get_similar_songs(track_id):
+def get_similar_songs(model, track_id):
     """returns 5 closest song recomendations based on
     the first song returned for the given search term
 
     Args:
+        model (obj):
+            model object from loaded pickle
         track_search_term (str):
             the term used to search for spotify tracks
 
@@ -75,7 +77,7 @@ def get_similar_songs(track_id):
     _, feature_vector = get_feature_vector(track_id)
 
     # run features through knn and get recomendations
-    recommendations = find_recommendations(feature_vector)
+    recommendations = find_recommendations(model, feature_vector)
 
     return recommendations
 
@@ -93,14 +95,13 @@ def recommendations():
 
     if request.method == 'POST':
         # Extract input from form
-        your_song = request.form.get("Song")
-        your_artist = request.form.get("Artist")
+        searched_song = request.form.get("track_search")
 
         # search spotify for users song, and get the first returned track id
-        user_track_id = lazy_track_search(your_song)
+        user_track_id = lazy_track_search(searched_song)
 
         # get recomendations using users track id
-        recommendations = get_similar_songs(user_track_id)
+        recommendations = get_similar_songs(knn_model, user_track_id)
 
         # getting information for graph
         features_names, user_track_features = get_feature_vector(user_track_id)
@@ -108,15 +109,8 @@ def recommendations():
         return render_template(
             "recom.html", title="Recommendations",
             recommendations=recommendations,
-            inputSongName=your_song,
-            inputArtistName=your_artist
+            track_search=searched_song
             )
-
-        # return render_template('base.html',
-        #                       original_input={
-        #                           'Song': your_song,
-        #                           'Artist': your_artist}
-        #                       )
     else:
         return render_template('base.html')
 

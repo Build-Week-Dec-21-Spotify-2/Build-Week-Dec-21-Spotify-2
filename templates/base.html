@@ -4,22 +4,20 @@
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-        integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <style>
-        html,
+            html,
         body {
             display: flex;
-
             justify-content: center;
             font-family: Roboto, Arial, sans-serif;
             font-size: 15px;
         }
-
+        
         form {
             border: 5px solid #f1f1f1;
         }
-
+        
         input[type=text],
         input[type=password] {
             width: 100%;
@@ -29,14 +27,14 @@
             border: 1px solid #ccc;
             box-sizing: border-box;
         }
-
+        
         .icon {
             font-size: 110px;
             display: flex;
             justify-content: center;
             color: #19C151;
         }
-
+        
         button {
             background-color: #19C151;
             color: white;
@@ -46,49 +44,49 @@
             cursor: grab;
             width: 48%;
         }
-
+        
         h1 {
             text-align: center;
             font-size: 18;
         }
-
+        
         h3 {
             text-align: center;
             font-size: 10;
         }
-
+        
         button:hover {
             opacity: 0.8;
         }
-
+        
         .formcontainer {
             text-align: center;
             margin: 24px 50px 12px;
             width: 450px;
         }
-
+        
         .container {
             padding: 16px 0;
             text-align: left;
         }
-
+        
         .container_button {
             padding: 16px 0;
             text-align: center;
         }
-
+        
         notes {
             text-align: center;
             font-size: 10;
         }
-
+        
         span.psw {
             float: right;
             padding-top: 0;
             padding-right: 15px;
         }
-
         /* Change styles for span on extra small screens */
+        
         @media screen and (max-width: 300px) {
             span.psw {
                 display: block;
@@ -107,26 +105,19 @@
         </div>
         <div class="formcontainer">
             <div class="container">
-                <label for="artist_name"><strong>Enter Artist Name</strong></label>
-                <input type="text" id="artist_name" name="artist_name" placeholder="ie Kendrick Lamar">
+                <label for="track_search"><strong>Enter Song Name</strong></label>
+                <input required type="text" id="track_search" name="track_search" placeholder="i.e. humble by kendrick lamar">
 
-
-                <div class="container">
-                    <label for="num_recos"><strong>Enter Name of Song</strong></label>
-                    <input type="text" id="num_recos" name="num_recos" placeholder="ie Humble ">
-
-                    <div class="container_button">
-
-                        <button type="Submit"><strong>Submit</strong></button>
-                        <div class="notes">
-                            <label>Find the code for this project on
-                                <a href="https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2">my
-                                    github</a>
+                <div class="container_button">
+                    <button type="Submit"><strong>Search</strong></button>
+                    <div class="notes">
+                        <label>Find the code for this project on
+                <a href="https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2">my github</a>
                             </label>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </form>
     {% endblock %}
