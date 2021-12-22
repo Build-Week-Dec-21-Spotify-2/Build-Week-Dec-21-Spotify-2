@@ -2,7 +2,6 @@
 most similar songs using a KNN model and the Spotify API."""
 
 from flask import Flask, render_template, request
-import pandas as pd
 import pickle
 from spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
 from models import find_recommendations
@@ -56,11 +55,12 @@ def get_feature_vector(track_id):
     track_features.pop('analysis_url')
 
     feature_vector = list(track_features.values())
+    feature_names = list(track_features.keys())
 
-    return feature_vector
+    return feature_names, feature_vector
 
 
-def get_similar_songs(track_search_term):
+def get_similar_songs(track_id):
     """returns 5 closest song recomendations based on
     the first song returned for the given search term
 
@@ -71,11 +71,8 @@ def get_similar_songs(track_search_term):
     Returns:
         5 most similar songs
     """
-    # get track id of first search result
-    track_id = lazy_track_search(track_search_term)
-
     # get feature vector for track_id
-    feature_vector = get_feature_vector(track_id)
+    _, feature_vector = get_feature_vector(track_id)
 
     # run features through knn and get recomendations
     recommendations = find_recommendations(feature_vector)
@@ -91,7 +88,7 @@ def root():
 
 
 @app.route('/recommendations', methods=['GET', 'POST'])
-def root():
+def recommendations():
     """The home page."""
 
     if request.method == 'POST':
@@ -99,55 +96,21 @@ def root():
         your_song = request.form.get("Song")
         your_artist = request.form.get("Artist")
 
-        # Create Dataframe based on input
-        # JOSHUA: FEEL FREE TO MANIPULATE BELOW TO GET IT TO WORK
-        # WITH THE MODEL
-        input_variables = pd.DataFrame([[your_song, your_artist]],
-                                       columns=['your_song', 'your_artist'],
-                                       index=['input']
-                                       )
-        # GET MODEL'S PREDICTION
-        prediction = get_similar_songs(input_variables)
+        # search spotify for users song, and get the first returned track id
+        user_track_id = lazy_track_search(your_song)
 
-        return render_template('base.html',
-                               original_input={
-                                   'Song': your_song,
-                                   'Artist': your_artist}
-                               )
-        audio_features_dict = get_track_features(your_song)
+        # get recomendations using users track id
+        recommendations = get_similar_songs(user_track_id)
 
-        danceability = audio_features_dict[0]["danceability"]
-        energy = audio_features_dict[0]["energy"]
-        key = audio_features_dict[0]["key"]
-        loudness = audio_features_dict[0]["loudness"]
-        mode = audio_features_dict[0]["mode"]
-        speechiness = audio_features_dict[0]["speechiness"]
-        acousticness = audio_features_dict[0]["acousticness"]
-        instrumentalness = audio_features_dict[0]["instrumentalness"]
-        liveness = audio_features_dict[0]["liveness"]
-        valence = audio_features_dict[0]["valence"]
-        tempo = audio_features_dict[0]["tempo"]
-        duration_ms = audio_features_dict[0]["duration_ms"]
-        time_signature = audio_features_dict[0]["time_signature"]
+        # getting information for graph
+        features_names, user_track_features = get_feature_vector(user_track_id)
 
-        user_song_features = [
-            danceability,
-            energy,
-            key,
-            loudness,
-            mode,
-            speechiness,
-            acousticness,
-            instrumentalness,
-            liveness,
-            valence,
-            tempo,
-            duration_ms,
-            time_signature,
-        ]
-
-        return render_template("recom.html", title="Recommendations",
-                               recommendations=recommendations, inputSongName=song_name, inputArtistName=artist_name)
+        return render_template(
+            "recom.html", title="Recommendations",
+            recommendations=recommendations,
+            inputSongName=your_song,
+            inputArtistName=your_artist
+            )
 
         # return render_template('base.html',
         #                       original_input={
