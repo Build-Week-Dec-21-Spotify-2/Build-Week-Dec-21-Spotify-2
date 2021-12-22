@@ -82,33 +82,79 @@ def get_similar_songs(track_search_term):
     return recommendations
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
+def root():
+    """Base view"""
+
+    return render_template("base.html", title="Song Recommender")
+
+
+@app.route('/recommendations', methods=['GET', 'POST'])
 def root():
     """The home page."""
 
     if request.method == 'POST':
         # Extract input from form
-        your_song=request.form.get("Song")
-        your_artist=request.form.get("Artist")
+        your_song = request.form.get("Song")
+        your_artist = request.form.get("Artist")
 
         # Create Dataframe based on input
         # JOSHUA: FEEL FREE TO MANIPULATE BELOW TO GET IT TO WORK
         # WITH THE MODEL
         input_variables = pd.DataFrame([[your_song, your_artist]],
-                                        columns=['your_song','your_artist'],
-                                        index=['input']
-        )
+                                       columns=['your_song', 'your_artist'],
+                                       index=['input']
+                                       )
         # GET MODEL'S PREDICTION
         prediction = get_similar_songs(input_variables)
 
+        return render_template('base.html',
+                               original_input={
+                                   'Song': your_song,
+                                   'Artist': your_artist}
+                               )
+        audio_features_dict = get_track_features(your_song)
 
-        return render_template('index.html',
-                                original_input={
-                                        'Song':your_song,
-                                        'Artist':your_artist}
-        )
+        danceability = audio_features_dict[0]["danceability"]
+        energy = audio_features_dict[0]["energy"]
+        key = audio_features_dict[0]["key"]
+        loudness = audio_features_dict[0]["loudness"]
+        mode = audio_features_dict[0]["mode"]
+        speechiness = audio_features_dict[0]["speechiness"]
+        acousticness = audio_features_dict[0]["acousticness"]
+        instrumentalness = audio_features_dict[0]["instrumentalness"]
+        liveness = audio_features_dict[0]["liveness"]
+        valence = audio_features_dict[0]["valence"]
+        tempo = audio_features_dict[0]["tempo"]
+        duration_ms = audio_features_dict[0]["duration_ms"]
+        time_signature = audio_features_dict[0]["time_signature"]
+
+        user_song_features = [
+            danceability,
+            energy,
+            key,
+            loudness,
+            mode,
+            speechiness,
+            acousticness,
+            instrumentalness,
+            liveness,
+            valence,
+            tempo,
+            duration_ms,
+            time_signature,
+        ]
+
+        return render_template("recom.html", title="Recommendations",
+                               recommendations=recommendations, inputSongName=song_name, inputArtistName=artist_name)
+
+        # return render_template('base.html',
+        #                       original_input={
+        #                           'Song': your_song,
+        #                           'Artist': your_artist}
+        #                       )
     else:
-        return render_template('index.html')
+        return render_template('base.html')
 
 
 if __name__ == "__main__":
