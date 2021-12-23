@@ -106,10 +106,15 @@ def recommendations():
         # getting information for graph
         features_names, user_track_features = get_feature_vector(user_track_id)
 
+        # build spotify embed link (spliting link for PEP8 line length)
+        spotify_embed_url = "https://open.spotify.com/embed/track/" + \
+            f"{user_track_id}?utm_source=generator&theme=0"
+
         return render_template(
             "recom.html", title="Recommendations",
             recommendations=recommendations,
-            track_search=searched_song
+            track_search=searched_song,
+            spotify_embed_url=spotify_embed_url
             )
     else:
         return render_template('base.html')
