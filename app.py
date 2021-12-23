@@ -1,19 +1,13 @@
 """This app will let the user input a song and return the top 5
 most similar songs using a KNN model and the Spotify API."""
 
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request
 import pickle
 from spotify_api.spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
 from models.models import find_recommendations
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 import seaborn as sns
 import numpy as np
-from io import BytesIO
-import base64
-import os
-
 
 
 app = Flask(__name__)
@@ -116,28 +110,19 @@ def create_bar_graph(feature_names, user_track_features):
     custom_style = {'axes.labelcolor': 'white',
                     'xtick.color': 'white',
                     'ytick.color': 'white',
-                    'figure.facecolor':'black'}
-    sns.set_style("whitegrid", rc=custom_style)
+                    'figure.facecolor': 'black'}
+    sns.set_style("darkgrid", rc=custom_style)
 
     # Create the plot
-    fig, ax = plt.subplots(1,1)
+    fig, ax = plt.subplots(1, 1, figsize=(4, 3))
     sns.barplot(x=ten_user_track_features, y=ten_features_names,
-                    color='green',
-                    orient="h",
-                    ax=ax)
+                color='green',
+                orient="h",
+                ax=ax)
 
-    # Save it to a temporary buffer.
-    buf = BytesIO()
-    data = FigureCanvas(fig).print_png(buf)
-
-    fig.savefig('templates/plot.jpg', format='jpg')
+    plt.savefig('static/plot.png', format='png', bbox_inches="tight")
 
     return None
-
-    # Embed the result in the html output.
-    # data = base64.b64encode(buf.getbuffer()).decode("ascii")
-
-    # return Response(buf.getvalue(), mimetype='image/png')
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -164,33 +149,16 @@ def recommendations():
         # getting information for graph
         features_names, user_track_features = get_feature_vector(user_track_id)
 
-        # get bar plot
-        # plot = create_bar_graph(features_names, user_track_features)
+        # save bar plot
         create_bar_graph(features_names, user_track_features)
-
-        # with open('models/app_data/plot.png', 'wb') as img:
-        #     img.write(plot)
-
-        # img = Image.new('RGB', (x,y), "black")
-        # fullpath = os.path.join(path, 'plot.png')
-        # img.save(fullpath)
 
         return render_template(
             "recom.html", title="Recommendations",
             recommendations=recommendations,
-            track_search=searched_song,
-            # plot=plot
+            track_search=searched_song
             )
     else:
         return render_template('base.html')
-
-
-# @app.route('/plot.png')
-# def plot_png(features_names, user_track_features):
-#     """Create bar graph for /reccomendations page"""
-
-#     response = create_bar_graph(features_names, user_track_features)
-#     return response
 
 
 if __name__ == "__main__":
