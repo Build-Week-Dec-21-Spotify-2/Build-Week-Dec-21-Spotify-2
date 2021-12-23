@@ -4,15 +4,13 @@
 Spotify Song Recommendations Using KNN
 </h1>
 
-<center>
+<p align="center">
+    <img src="https://img.shields.io/badge/CONTRIBUTORS-3-green?style=for-the-badge"/><a href="https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2/graphs/contributors"></a>
+    <img src="https://img.shields.io/badge/LICENSE-MIT-green?style=for-the-badge"/><a href="https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2/blob/main/LICENSE"></a>
+</p>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-
-</center>
+<!-- [![Contributors][contributors-shield]][contributors-url]
+[![MIT License][license-shield]][license-url] -->
 
 <!-- ABOUT THE PROJECT -->
 If you love music and have a list of favorite songs you loop on repeat until your speakers give out, you probably wouldn't mind finding a few more songs to jam out to. We wouldn't mind either. So we made an app that takes your favorite song and uses AI to discover 5 similar songs you're sure to enjoy.
@@ -94,16 +92,9 @@ Wolff, Austin - [Github](https://github.com/AustinJamesWolff) - austinwolff1997@
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[contributors-shield]: https://img.shields.io/badge/CONTRIBUTORS-3-green?style=for-the-badge
+[contributors-url]: https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2/graphs/contributors
+[license-shield]: https://img.shields.io/badge/LICENSE-MIT-green?style=for-the-badge
+[license-url]: https://github.com/Build-Week-Dec-21-Spotify-2/Build-Week-Dec-21-Spotify-2/blob/main/LICENSE
+
+
