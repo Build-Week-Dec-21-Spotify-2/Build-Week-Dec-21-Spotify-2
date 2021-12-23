@@ -19,10 +19,12 @@ def find_recommendations(model, input_feature_vector):
 
     id_list = [1, 2, 3, 4, 5]
     artist_song = []
+    track_ids = []
 
     for each in ind:
         artist_song.append(songs.iloc[each]["artists_song"])
+        track_ids.append(songs.iloc[each]["track_id"])
 
-        recommendations = list(zip(id_list, artist_song))
+        recommendations = list(zip(id_list, artist_song, track_ids))
 
     return recommendations

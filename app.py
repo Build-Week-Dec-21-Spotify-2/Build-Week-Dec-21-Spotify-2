@@ -108,17 +108,28 @@ def create_bar_graph(feature_names, user_track_features):
 
     # Customize the figure
     custom_style = {'axes.labelcolor': 'white',
+                    'axes.facecolor': '#181818',
+                    'grid.color': '#181818',
                     'xtick.color': 'white',
                     'ytick.color': 'white',
-                    'figure.facecolor': 'black'}
-    sns.set_style("darkgrid", rc=custom_style)
+                    'figure.facecolor': '#181818',
+                    'font-family': 'roboto'}
+    sns.set_style(rc=custom_style)
 
     # Create the plot
     fig, ax = plt.subplots(1, 1, figsize=(4, 3))
-    sns.barplot(x=ten_user_track_features, y=ten_features_names,
-                color='green',
-                orient="h",
-                ax=ax)
+    ax = sns.barplot(x=ten_user_track_features, y=ten_features_names,
+                     color='#64D764',
+                     orient="h",
+                     ax=ax)
+
+    ax.set_yticklabels(ax.get_yticklabels(),
+                       fontname='roboto',
+                       fontsize=9,
+                       weight='bold')
+    plt.xticks(fontsize=9, weight='bold')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
     plt.savefig('static/plot.png', format='png', bbox_inches="tight")
 
@@ -152,10 +163,15 @@ def recommendations():
         # save bar plot
         create_bar_graph(features_names, user_track_features)
 
+        # build spotify embed link (spliting link for PEP8 line length)
+        spotify_embed_url = "https://open.spotify.com/embed/track/" + \
+            f"{user_track_id}?utm_source=generator&theme=0"
+
         return render_template(
             "recom.html", title="Recommendations",
             recommendations=recommendations,
-            track_search=searched_song
+            track_search=searched_song,
+            spotify_embed_url=spotify_embed_url
             )
     else:
         return render_template('base.html')
