@@ -1,20 +1,32 @@
 {% extends "base.html" %} {% block content %}
 <div class="recommendations">
+    <div class="icon">
+        <i class="fab fa-spotify"></i>
+    </div>
     <div>
         <h1>Recommendations</h1>
     </div>
+
     <div>
         <p>You have search Spotify for <b>{{track_search}}</b></p>
         <!--embed spotify-->
         <div>
             <iframe src={{spotify_embed_url}} width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
         </div>
-        <p>Here are the five closest songs we could find:</p>
+
     </div>
 
-    <br /> {% for item in recommendations %}
-    <ol>{{ item[1] }}</ol>
-    {% endfor %}
+    <div>
+        <p>Here are the five closest songs we could find:</p>
+        <br /> {% for item in recommendations %} {{ item[1] }}
+        <br>
+        <iframe src="https://open.spotify.com/embed/track/{{ item[2] }}?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; 
+        clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+        <br><br> {% endfor %}
+    </div>
+
     <div class="container_button" id=footer>
         <form action="/">
             <button type="submit">Go Back</button>
