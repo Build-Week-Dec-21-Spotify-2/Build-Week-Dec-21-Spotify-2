@@ -22,7 +22,7 @@ class Recommendations(DB.Model):
 
 def find_recommendations(input_feature_vector):
     # Load locally stored pickled model
-    model = pickle.load(open('app_data/Spotify_model_new', 'rb'))
+    model = pickle.load(open('Spotify_model_new', 'rb'))
 
     # Read in spotify data from csv
     songs = pd.read_csv("app_data/song_artist.csv")

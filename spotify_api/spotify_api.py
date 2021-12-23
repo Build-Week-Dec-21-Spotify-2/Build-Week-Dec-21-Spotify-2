@@ -3,8 +3,12 @@ import requests
 import time
 
 # Spotify API Credentials
-SPOTIFY_CLIENT = getenv('SPOTIFY_CLIENT')
-SPOTIFY_SECRET = getenv('SPOTIFY_SECRET')
+# SPOTIFY_CLIENT = getenv('SPOTIFY_CLIENT')
+# SPOTIFY_SECRET = getenv('SPOTIFY_SECRET')
+
+# TEST SPOTIFY CREDENTIALS, DELETE WHEN DONE
+SPOTIFY_CLIENT = 'f95558e2b3d14f13af7933e5b3059835'
+SPOTIFY_SECRET = '0229e97b3d2b4e86805a739bd28f62bd'
 
 # # Spotify API URL paths
 AUTH_URL = 'https://accounts.spotify.com/api/token'

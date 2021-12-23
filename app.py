@@ -4,14 +4,14 @@ most similar songs using a KNN model and the Spotify API."""
 from flask import Flask, render_template, request
 import pandas as pd
 import pickle
-from spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
-from models import find_recommendations
+from spotify_api.spotify_api import SPOTIFY_CLIENT, SPOTIFY_SECRET, SpotifyAPI
+from models.models import find_recommendations
 
 
 app = Flask(__name__)
 
 # Below will load the pickled-model
-filename = "models/app_data/Spotify_model_new"
+filename = "models/Spotify_model_new"
 model = pickle.load(open(filename, 'rb'))
 
 # construct and authenticate SpotifyAPI
@@ -99,7 +99,7 @@ def root():
                                         index=['input']
         )
         # GET MODEL'S PREDICTION
-        prediction = get_similar_songs(input_variables)
+        recommendations = get_similar_songs(your_song)
 
 
         return render_template('index.html',
