@@ -12,6 +12,9 @@ requests = "*"
 flake8 = "*"
 gunicorn = "*"
 scikit-learn = "*"
+matplotlib = "*"
+seaborn = "*"
+ipykernel = "*"
 
 [dev-packages]
 
